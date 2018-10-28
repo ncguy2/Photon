@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import net.ncguy.Photon;
+import net.ncguy.photon.PhotonOffline;
 
 public class PhotonSampleDebugRenderer {
 
@@ -24,20 +25,20 @@ public class PhotonSampleDebugRenderer {
     }
 
     public void render(ModelBatch batch, Environment env) {
-        if(Photon.samplePoints == null) {
+        if(Photon.Offline.samplePoints == null) {
             return;
         }
 
-        for (Photon.SamplePoint samplePoint : Photon.samplePoints) {
+        for (PhotonOffline.SamplePoint samplePoint : Photon.Offline.samplePoints) {
             ModelInstance inst = getInstance();
             inst.transform.idt();
 
             Vector3 point = samplePoint.point.cpy();
-            point.add(Photon.actualStepSize.cpy().scl(0.5f));
+            point.add(Photon.Offline.actualStepSize.cpy().scl(0.5f));
             inst.transform.translate(point);
             inst.transform.scale(0.32f, 0.32f, 0.32f);
 
-            diffuse.color.set(samplePoint.colour).mul(Photon.globalLightIntensity);
+            diffuse.color.set(samplePoint.colour).mul(Photon.Offline.globalLightIntensity);
             batch.render(inst, new Environment());
         }
 
